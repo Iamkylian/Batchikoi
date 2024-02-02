@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, ActivityIndicator, Button } from "react-native";
+import { View, Text, StyleSheet, TextInput, ActivityIndicator, Button, ImageBackground } from "react-native";
 import React from "react";
 import { FIREBASE_AUTH } from "../../FirebaseConfigFile";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
@@ -40,18 +40,20 @@ const Login = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <TextInput value={email} style={styles.input} placeholder="Email" autoCapitalize="none" onChangeText={(text) => setEmail(text)}></TextInput>
-      <TextInput value={password} style={styles.input} placeholder="Password" autoCapitalize="none" onChangeText={(text) => setPassword(text)} secureTextEntry={true}></TextInput>
-        {loading ? (
-            <ActivityIndicator size="large" color="blue" /> 
-            ) : (
-            <>
-                <Button title="Login" onPress={signIn} />
-                <Button title="Create account" onPress={signUp}/>
-            </>
-        )}
-    </View>
+    <ImageBackground source={require('../../assets/login/loginBackground.jpg')} style={styles.background}>
+        <View style={styles.container}>
+        <TextInput value={email} style={styles.input} placeholder="Email" autoCapitalize="none" onChangeText={(text) => setEmail(text)}></TextInput>
+        <TextInput value={password} style={styles.input} placeholder="Password" autoCapitalize="none" onChangeText={(text) => setPassword(text)} secureTextEntry={true}></TextInput>
+            {loading ? (
+                <ActivityIndicator size="large" color="blue" /> 
+                ) : (
+                <>
+                    <Button title="Login" onPress={signIn} />
+                    <Button title="Create account" onPress={signUp}/>
+                </>
+            )}
+        </View>
+    </ImageBackground>
   );
 };
 
@@ -78,5 +80,11 @@ const styles = StyleSheet.create({
         backgroundColor: "blue",
         borderRadius: 15,
     },
+
+    background: {
+        flex: 1,
+        resizeMode: "cover",
+        justifyContent: "center"
+    }
 
 });
