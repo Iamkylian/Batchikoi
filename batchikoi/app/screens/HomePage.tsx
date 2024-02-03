@@ -1,10 +1,19 @@
-import { View, Text } from 'react-native'
+import { View, Text, Button } from 'react-native'
 import React from 'react'
+import { NavigationProp } from '@react-navigation/native'
+import { FIREBASE_AUTH } from '../../FirebaseConfigFile'
 
-const HomePage = () => {
+interface RouterProps {
+  navigation: NavigationProp<any, any>
+}
+
+const HomePage = ({ navigation }: RouterProps) => {
   return (
     <View>
-      <Text>HomePage</Text>
+
+      <Button onPress={() => navigation.navigate('')} title='Open page' />
+      <Button onPress={() => FIREBASE_AUTH.signOut()} title='Logout' />
+
     </View>
   )
 }

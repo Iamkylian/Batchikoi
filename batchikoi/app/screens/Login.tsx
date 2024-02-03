@@ -1,9 +1,14 @@
-import { View, Text, StyleSheet, TextInput, ActivityIndicator, Button, ImageBackground } from "react-native";
+import { View, Text, StyleSheet, TextInput, ActivityIndicator, Button, ImageBackground, KeyboardAvoidingView, TouchableOpacityBase, TouchableOpacity } from "react-native";
 import React from "react";
 import { FIREBASE_AUTH } from "../../FirebaseConfigFile";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
+import { NavigationProp } from "@react-navigation/native";
 
-const Login = () => {
+interface RouterProps {
+  navigation: NavigationProp<any, any>;
+}
+
+const Login = ({ navigation }: RouterProps) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [loading, setLoading] = React.useState(false);
@@ -25,33 +30,27 @@ const Login = () => {
     }
   };
 
-  const signUp = async () => {
-    setLoading(true);
-    try {
-      const response = await createUserWithEmailAndPassword(auth, email, password);
-      console.log(response);
-      alert("Sign up successfully : check your email !");
-    } catch (error: any) {
-      console.log(error);
-      alert("Sign up failed " + error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+// source={require('../../assets/login/loginBackground.jpg')}
 
   return (
-    <ImageBackground source={require('../../assets/login/loginBackground.jpg')} style={styles.background}>
+    <ImageBackground  style={styles.background}> 
         <View style={styles.container}>
-        <TextInput value={email} style={styles.input} placeholder="Email" autoCapitalize="none" onChangeText={(text) => setEmail(text)}></TextInput>
-        <TextInput value={password} style={styles.input} placeholder="Password" autoCapitalize="none" onChangeText={(text) => setPassword(text)} secureTextEntry={true}></TextInput>
-            {loading ? (
-                <ActivityIndicator size="large" color="blue" /> 
-                ) : (
-                <>
-                    <Button title="Login" onPress={signIn} />
-                    <Button title="Create account" onPress={signUp}/>
-                </>
-            )}
+          <KeyboardAvoidingView behavior="padding">
+            <TextInput value={email} style={styles.input} placeholder="Email" autoCapitalize="none" onChangeText={(text) => setEmail(text)}></TextInput>
+            <TextInput value={password} style={styles.input} placeholder="Password" autoCapitalize="none" onChangeText={(text) => setPassword(text)} secureTextEntry={true}></TextInput>
+                {loading ? (
+                    <ActivityIndicator size="large" color="blue" /> 
+                    ) : (
+                    <>
+                        <Button title="Login" onPress={signIn} />
+                        <Text style={styles.or}> or </Text>
+                        <Text style={styles.registerText}>New to the app ?<Text onPress={ () => navigation.navigate('Register')} style={styles.register}> Create account</Text> </Text>
+                        
+                    </>
+                )}
+
+            </KeyboardAvoidingView>
+            
         </View>
     </ImageBackground>
   );
@@ -85,6 +84,21 @@ const styles = StyleSheet.create({
         flex: 1,
         resizeMode: "cover",
         justifyContent: "center"
+    },
+
+    or : { 
+        textAlign: "center",
+        marginVertical: 10,
+        fontWeight: "bold",
+        fontSize: 15,
+    },
+
+    registerText: {
+        textAlign: "center",
+    },
+
+    register: {
+        color: "blue",
     }
 
 });
