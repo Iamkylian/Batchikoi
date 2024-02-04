@@ -14,7 +14,7 @@ const insideSatck = createNativeStackNavigator();
 function InsideLayout() {
   return (
     <insideSatck.Navigator>
-      <insideSatck.Screen name='HomePage' component={HomePage} />
+      <insideSatck.Screen name='HomePage' component={HomePage} options={{ headerShown: false }} />
     </insideSatck.Navigator>
   );
 }
